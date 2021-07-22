@@ -1,0 +1,30 @@
+<div class="show">
+  <h1><%= link_to @museum.name, @museum.url %></h1>
+  <%= image_tag @museum.image_url %>
+  <p><%= stars(@museum.average_review) %></p>
+  <p><%= @museum.kind_of_museum %></p>
+  <p><%= @museum.address %></p>
+
+  <iframe
+  width="600"
+  height="450"
+  style="border:0"
+  loading="lazy"
+  allowfullscreen
+  src="https://www.google.com/maps/embed/v1/place?key=<%= ENV["GOOGLE_API_KEY"] %>
+    &q=<%= @museum.address %>">
+</iframe>
+</div>
+
+<%= form_for [@museum, @review] do |f| %>
+  <%= render partial: "layouts/errors", locals: {record: @review} %>
+  <%= f.label :rating %>
+  <%= f.number_field :rating, min: 1, max: 5 %>
+  <%= f.label :content %><br>
+  <%= f.text_area :content %>
+  <%= f.submit %>
+<% end %>
+
+<div class="cards">
+  <%= render @museum.reviews %>
+</div>
